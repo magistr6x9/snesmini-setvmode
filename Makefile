@@ -1,8 +1,15 @@
-all : setvmode
+CC = arm-linux-gnueabihf-gcc-7
+STRIP = arm-linux-gnueabihf-strip
 
-setvmode : setvmode.c
-	arm-linux-gnueabihf-gcc -Wall -O setvmode.c -o setvmode -g
-	arm-linux-gnueabihf-strip setvmode
+CFLAGS = -Wall -O -g
 
+src = $(wildcard *.c)
+obj = $(src:.c=.o)
+
+setvmode : $(obj)
+	$(CC) -o $@ $^
+	$(STRIP) $@
+
+.PHONY: clean
 clean :
-	rm -f setvmode
+	rm -f $(obj) setvmode
